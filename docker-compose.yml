@@ -1,0 +1,56 @@
+version: '2'
+
+services:
+  fhem:
+    image: ghcr.io/fhem/fhem/fhem-docker:bullseye
+    restart: always
+    ports:
+        - "8083:8083"
+        - "7072:7072"
+    volumes:
+        - ./fhem-core/:/opt/fhem/
+    networks:
+        - fhem-network
+    environment:
+        FHEM_UID: 1000
+        FHEM_GID: 1000
+        TIMEOUT: 10
+        RESTART: 1
+        TELNETPORT: 7072
+        TZ: Europe/Berlin
+    depends_on:
+        - "mariadb"
+        - "grafana"
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    ports:
+      - 3000:3000
+    user: '104'
+    volumes:
+      - "./grafana/:/opt/grafana/"
+    networks:
+        - fhem-network
+
+  mariadb:
+      restart: always
+      expose:
+          - "3306"
+          - "33060"
+      ports:
+          - "3306:3306"
+          - "33060:33060"
+      image: tobi312/rpi-mariadb:10.5
+      volumes:
+          - ./mariadb/data:/var/lib/mysql
+      environment:
+          MARIADB_DATABASE: fhem
+          MARIADB_USER: fhemuser
+          MARIADB_PASSWORD: MYSECRET
+          MARIADB_RANDOM_ROOT_PASSWORD: 1
+      networks:
+          - fhem-network
+          
+networks:
+    fhem-network:
+        driver: bridge
