@@ -46,7 +46,7 @@ services:
       environment:
           MARIADB_DATABASE: fhem
           MARIADB_USER: fhemuser
-          MARIADB_PASSWORD: MYSECRET
+          MARIADB_PASSWORD: SET_CREDENTIALS_HERE
           MARIADB_RANDOM_ROOT_PASSWORD: 1
       networks:
           - fhem-network
