@@ -1,16 +1,14 @@
-version: '2'
+version: '3'
 
 services:
   fhem:
+    container_name: fhem
     image: ghcr.io/fhem/fhem/fhem-docker:bullseye
     restart: always
-    ports:
-        - "8083:8083"
-        - "7072:7072"
     volumes:
-        - ./fhem-core/:/opt/fhem/
-    networks:
-        - fhem-network
+        - ./fhem/core/:/opt/fhem/
+        - ./fhem/config/:/opt/fhem/conf
+        - ./fhem/config/init/fhem-post-init.sh:/post-init.sh
     environment:
         FHEM_UID: 1000
         FHEM_GID: 1000
@@ -18,38 +16,48 @@ services:
         RESTART: 1
         TELNETPORT: 7072
         TZ: Europe/Berlin
+        CONFIGTYPE: configDB
+    networks:
+        - fhem-network
+    ports:
+        - "8083:8083"
+        - "8383:8383"
+        - "7072:7072"
     depends_on:
         - "mariadb"
         - "grafana"
 
   grafana:
-    image: grafana/grafana-oss:latest
-    ports:
-      - 3000:3000
+    container_name: grafana
+    image: grafana/grafana:latest
     user: '104'
     volumes:
       - "./grafana/:/opt/grafana/"
     networks:
         - fhem-network
+    ports:
+      - 3000:3000
 
   mariadb:
-      restart: always
-      expose:
-          - "3306"
-          - "33060"
-      ports:
-          - "3306:3306"
-          - "33060:33060"
-      image: tobi312/rpi-mariadb:10.5
-      volumes:
-          - ./mariadb/data:/var/lib/mysql
-      environment:
-          MARIADB_DATABASE: fhem
-          MARIADB_USER: fhemuser
-          MARIADB_PASSWORD: SET_CREDENTIALS_HERE
-          MARIADB_RANDOM_ROOT_PASSWORD: 1
-      networks:
-          - fhem-network
+    container_name: mariadb
+    restart: always
+    image: mariadb:latest
+    volumes:
+        - ./fhem/config/init/mariadb_init_tables.sql:/docker-entrypoint-initdb.d/init_tables.sql
+        - ./mariadb/data:/var/lib/mysql
+    environment:
+        MARIADB_DATABASE: fhem
+        MARIADB_USER: fhemuser
+        MARIADB_PASSWORD: SET_CREDENTIALS_HERE
+        MARIADB_ROOT_PASSWORD: SET_CREDENTIALS_HERE
+    networks:
+        - fhem-network
+    expose:
+        - "3306"
+        - "33060"
+    ports:
+        - "3306:3306"
+        - "33060:33060"
           
 networks:
     fhem-network:

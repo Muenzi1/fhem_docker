@@ -1,5 +1,3 @@
-USE fhem;
-
 GRANT ALL PRIVILEGES ON fhem.* TO 'fhemuser'@'%';
 
 CREATE TABLE fhem.history (
