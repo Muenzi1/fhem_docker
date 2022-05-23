@@ -9,6 +9,8 @@ services:
         - ./fhem/core/:/opt/fhem/
         - ./fhem/config/:/opt/fhem/conf
         - ./fhem/config/init/fhem-post-init.sh:/post-init.sh
+    devices:
+      - "/dev/ttyAMA0:/dev/ttyAMA0"
     environment:
         FHEM_UID: 1000
         FHEM_GID: 1000

@@ -197,3 +197,4 @@ cython_debug/
 fhem/core/
 grafana/
 mariadb/
+fhem/config/configDB/configDB.conf
