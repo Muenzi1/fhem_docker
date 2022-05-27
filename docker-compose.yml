@@ -54,6 +54,7 @@ services:
         MARIADB_USER: fhemuser
         MARIADB_PASSWORD: SET_CREDENTIALS_HERE
         MARIADB_ROOT_PASSWORD: SET_CREDENTIALS_HERE
+        TZ: Europe/Berlin
     networks:
         - fhem-network
     expose:
