@@ -8,7 +8,7 @@ services:
     volumes:
         - ./fhem/core/:/opt/fhem/
         - ./fhem/config/:/opt/fhem/conf
-        - ./fhem/config/init/fhem-post-init.sh:/post-init.sh
+        - ./fhem/config/init/fhem/fhem-post-init.sh:/post-init.sh
     devices:
       - "/dev/ttyAMA0:/dev/ttyAMA0"
     environment:
@@ -32,20 +32,22 @@ services:
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
-    user: '104'
+    user: '1000'
     volumes:
       - "./grafana/:/opt/grafana/"
     networks:
         - fhem-network
     ports:
       - 3000:3000
+    depends_on:
+        - "mariadb"
 
   mariadb:
     container_name: mariadb
     restart: always
     image: mariadb:latest
     volumes:
-        - ./fhem/config/init/mariadb_init_tables.sql:/docker-entrypoint-initdb.d/init_tables.sql
+        - ./fhem/config/init/sql/:/docker-entrypoint-initdb.d/
         - ./mariadb/data:/var/lib/mysql
     environment:
         MARIADB_DATABASE: fhem
