@@ -31,10 +31,10 @@ services:
 
   grafana:
     container_name: grafana
-    image: grafana/grafana:latest
-    user: '1000'
+    image: grafana/grafana-oss:latest
+    user: "0"
     volumes:
-      - "./grafana/:/opt/grafana/"
+      - "./grafana/:/var/lib/grafana"
     networks:
         - fhem-network
     ports:
