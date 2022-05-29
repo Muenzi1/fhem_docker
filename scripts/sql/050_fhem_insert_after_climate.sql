@@ -8,7 +8,7 @@ INSERT
     IF NEW.READING IN ('Temperature', 'Humidity', 'Pressure') THEN
 
     INSERT INTO
-        fhem.climate (
+        fhem.f_t_climate (
             TIMESTAMP,
             YEAR,
             MONTH,

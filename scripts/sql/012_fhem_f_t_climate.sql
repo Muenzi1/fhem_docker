@@ -1,4 +1,4 @@
-CREATE TABLE fhem.climate (
+CREATE TABLE fhem.f_t_climate (
     TIMESTAMP TIMESTAMP,
     YEAR SMALLINT,
     MONTH TINYINT,
