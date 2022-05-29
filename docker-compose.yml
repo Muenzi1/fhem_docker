@@ -8,7 +8,7 @@ services:
     volumes:
         - ./fhem/core/:/opt/fhem/
         - ./fhem/config/:/opt/fhem/conf
-        - ./fhem/config/init/fhem/fhem-post-init.sh:/post-init.sh
+        - ./config/init/fhem/fhem-post-init.sh:/post-init.sh
     devices:
       - "/dev/ttyAMA0:/dev/ttyAMA0"
     environment:
@@ -47,8 +47,10 @@ services:
     restart: always
     image: mariadb:latest
     volumes:
-        - ./fhem/config/init/sql/:/docker-entrypoint-initdb.d/
+        - ./scripts/sql/:/docker-entrypoint-initdb.d/
         - ./mariadb/data:/var/lib/mysql
+        - ./config/sql/:/home/config
+        - ./scripts/sql/:/home/scripts
     environment:
         MARIADB_DATABASE: fhem
         MARIADB_USER: fhemuser
