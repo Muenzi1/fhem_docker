@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS fhem.dim_device_dashboard_mapping (
+CREATE TABLE IF NOT EXISTS fhem.d_t_device_dashboard (
     ID TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     DEVICE varchar(64),
     DASHBOARD varchar(64),
