@@ -78,6 +78,12 @@ and recreate the container.
     set OLD_DEVICE_NAME deviceRename NEW_DEVICE_NAME
     ```
 
+8. Avoid logging HM data twice for the HM and the HM_Clima device.
+
+    ```bash
+    attr NEW_DEVICE_NAME_Clima DbLogExclude desired-temp,ValvePosition
+    ```
+
 Sources of this wrapup:
 <https://wiki.fhem.de/wiki/Raspberry_Pi#Verwendung_UART_f.C3.BCr_Zusatzmodule>  
 <https://wiki.fhem.de/wiki/HMUARTLGW>  
