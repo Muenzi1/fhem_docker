@@ -1,18 +1,14 @@
 DELIMITER // 
 
-DROP TRIGGER IF EXISTS fhem.insert_after_climate;
+DROP TRIGGER IF EXISTS fhem.insert_after_battery;
 
-CREATE TRIGGER fhem.insert_after_climate
+CREATE TRIGGER fhem.insert_after_battery
 AFTER
 INSERT
     ON fhem.history FOR EACH ROW BEGIN
 
     IF NEW.READING IN (
-        'Temperature', 
-        'Humidity', 
-        'Pressure', 
-        'desired-temp', 
-        'ValvePosition' 
+        'batteryLevel' 
     ) THEN
 
     INSERT INTO
@@ -37,7 +33,7 @@ INSERT
             NEW.DAY,
             NEW.DEVICE,
             NEW.TYPE,
-            REPLACE(NEW.READING, 'desired-temp', 'Desired-Temperature'),
+            NEW.READING,
             CAST(NEW.VALUE AS DOUBLE),
             NOW()
         );
