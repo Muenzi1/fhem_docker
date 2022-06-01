@@ -12,7 +12,7 @@ INSERT
     ) THEN
 
     INSERT INTO
-        fhem.f_t_climate (
+        fhem.f_t_battery (
             TIMESTAMP,
             YEAR,
             MONTH,
