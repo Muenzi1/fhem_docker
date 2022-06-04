@@ -1,0 +1,16 @@
+ID,DEVICE,DISPLAY_NAME,TYPE,DASHBOARD,
+1,d_Wohnzimmer_agg,WZ_Raum,DUMMY,climate_wz
+2,ESPEasy_Arbeitszimmer_BMP,AZ_Raum,ESPEASY,climate_az
+3,ESPEasy_Badezimmer_BMP,BZ_Raum,ESPEASY,climate_bz
+4,ESPEasy_Kinderzimmer_BMP,KZ_Raum,ESPEASY,climate_kz
+5,ESPEasy_Kueche_BMP,KU_Raum,ESPEASY,climate_wz
+6,ESPEasy_Schlafzimmer_BMP,SZ_Raum,ESPEASY,climate_sz
+7,ESPEasy_Wohnzimmer_BMP,WZ_Raum,ESPEASY,climate_wz
+8,az_heizung,AZ_Heizung,CUL_HM,climate_az
+9,bz_heizung,BZ_Heizung,CUL_HM,climate_bz
+10,kl_heizung,KL_Heizung,CUL_HM,climate_wz
+11,kr_heizung,KR_Heizung,CUL_HM,climate_wz
+12,kz_heizung,KZ_Heizung,CUL_HM,climate_kz
+13,sl_heizung,SL_Heizung,CUL_HM,climate_sz
+14,sr_heizung,SR_Heizung,CUL_HM,climate_sz
+15,wz_heizung,WZ_Heizung,CUL_HM,climate_wz

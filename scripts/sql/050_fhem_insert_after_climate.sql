@@ -12,35 +12,40 @@ INSERT
         'Humidity', 
         'Pressure', 
         'desired-temp', 
-        'ValvePosition' 
+        'actuator' 
     ) THEN
 
     INSERT INTO
         fhem.f_t_climate (
+            ID,
             TIMESTAMP,
             YEAR,
             MONTH,
             WEEK,
             DAY,
-            DEVICE,
-            TYPE,
-            READING,
+            FK_DEVICE_ID,
+            FK_READING_ID,
             VALUE,
             _CREATED_AT
         )
-    VALUES
-        (
+            SELECT 
+            NEW.ID,
             NEW.TIMESTAMP,
             NEW.YEAR,
             NEW.MONTH,
             NEW.WEEK,
             NEW.DAY,
-            NEW.DEVICE,
-            NEW.TYPE,
-            REPLACE(NEW.READING, 'desired-temp', 'Desired-Temperature'),
+            DDM.ID,
+            DRM.ID, 
             CAST(NEW.VALUE AS DOUBLE),
             NOW()
-        );
+        FROM fhem.history AS h
+        LEFT JOIN fhem.d_t_device_mapping AS DDM
+            ON DDM.DEVICE = NEW.DEVICE
+        LEFT JOIN fhem.d_t_reading_mapping AS DRM
+            ON DRM.READING_ORIG = NEW.READING
+        WHERE NEW.ID = h.ID
+        ;
 
     END IF;
 END; //

@@ -1,8 +1,0 @@
-ID,DEVICE,DASHBOARD
-,d_Wohnzimmer_agg,climate_wz
-,ESPEasy_Arbeitszimmer_BMP,climate_az
-,ESPEasy_Badezimmer_BMP,climate_bz
-,ESPEasy_Kinderzimmer_BMP,climate_kz
-,ESPEasy_Kueche_BMP,climate_wz
-,ESPEasy_Schlafzimmer_BMP,climate_sz
-,ESPEasy_Wohnzimmer_BMP,climate_wz

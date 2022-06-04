@@ -1,0 +1,7 @@
+ID,READING_ORIG,READING,UNIT
+1,Humidity,Humidity,%rH
+2,Pressure,Pressure,hPa
+3,Temperature,T_ACT,°C
+4,desired-temp,T_TAR,°C
+5,batteryLevel,U_Bat,V
+6,actuator,ValvePosition,%
