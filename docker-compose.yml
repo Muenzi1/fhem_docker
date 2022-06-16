@@ -75,6 +75,16 @@ services:
         depends_on:
             - "fhem"
 
+    ofelia:
+        container_name: ofelia
+        image: mcuadros/ofelia:latest
+        command: daemon --docker
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:ro
+        labels:
+            ofelia.job-run.departure.container: "py_departure"
+            ofelia.job-run.departure.schedule: "@every 120s"
+
 networks:
     fhem-network:
         driver: bridge
