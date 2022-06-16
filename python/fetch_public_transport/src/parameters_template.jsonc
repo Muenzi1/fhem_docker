@@ -1,0 +1,19 @@
+{
+    "NUMBER_CONNECTIONS": 10,
+    "PRODUCTS": "1111111111",
+    "BASE_URL" : "https://reiseauskunft.bahn.de/bin/bhftafel.exe/dox",
+    "DEVICE": "dummy_fhem_device",
+    "STATIONS": {
+        "HBF": {
+            "ID": "1000000", 
+            "READING": "HBF"
+        },
+        "STRABA": {
+            "ID": "1000100", 
+            "READING": "Tram"
+        }
+    },
+    "HOST": "fhem",
+    "FHEM_PORT": "8083",
+    "CSRF_TOKEN": "csrf_111111111111111111"
+}

@@ -1,71 +1,80 @@
-version: '3'
+version: "3"
 
 services:
-  fhem:
-    container_name: fhem
-    image: ghcr.io/fhem/fhem/fhem-docker:bullseye
-    restart: always
-    volumes:
-        - ./fhem/core/:/opt/fhem/
-        - ./fhem/config/:/opt/fhem/conf
-        - ./config/init/fhem/fhem-post-init.sh:/post-init.sh
-    devices:
-      - "/dev/ttyAMA0:/dev/ttyAMA0"
-    environment:
-        FHEM_UID: 1000
-        FHEM_GID: 1000
-        TIMEOUT: 10
-        RESTART: 1
-        TELNETPORT: 7072
-        TZ: Europe/Berlin
-        CONFIGTYPE: configDB
-    networks:
-        - fhem-network
-    ports:
-        - "8083:8083"
-        - "8383:8383"
-        - "7072:7072"
-    depends_on:
-        - "mariadb"
-        - "grafana"
+    fhem:
+        container_name: fhem
+        image: ghcr.io/fhem/fhem/fhem-docker:bullseye
+        restart: always
+        volumes:
+            - ./fhem/core/:/opt/fhem/
+            - ./fhem/config/:/opt/fhem/conf
+            - ./config/init/fhem/fhem-post-init.sh:/post-init.sh
+        devices:
+            - "/dev/ttyAMA0:/dev/ttyAMA0"
+        environment:
+            FHEM_UID: 1000
+            FHEM_GID: 1000
+            TIMEOUT: 10
+            RESTART: 1
+            TELNETPORT: 7072
+            TZ: Europe/Berlin
+            CONFIGTYPE: configDB
+        networks:
+            - fhem-network
+        ports:
+            - "8083:8083"
+            - "8383:8383"
+            - "7072:7072"
+        depends_on:
+            - "mariadb"
+            - "grafana"
 
-  grafana:
-    container_name: grafana
-    image: grafana/grafana-oss:latest
-    user: "0"
-    volumes:
-      - "./grafana/:/var/lib/grafana"
-    networks:
-        - fhem-network
-    ports:
-      - 3000:3000
-    depends_on:
-        - "mariadb"
+    grafana:
+        container_name: grafana
+        image: grafana/grafana-oss:latest
+        user: "0"
+        volumes:
+            - "./grafana/:/var/lib/grafana"
+        networks:
+            - fhem-network
+        ports:
+            - 3000:3000
+        depends_on:
+            - "mariadb"
 
-  mariadb:
-    container_name: mariadb
-    restart: always
-    image: mariadb:latest
-    volumes:
-        - ./scripts/sql/:/docker-entrypoint-initdb.d/
-        - ./mariadb/data:/var/lib/mysql
-        - ./config/sql/:/home/config
-        - ./scripts/sql/:/home/scripts
-    environment:
-        MARIADB_DATABASE: fhem
-        MARIADB_USER: fhemuser
-        MARIADB_PASSWORD: SET_CREDENTIALS_HERE
-        MARIADB_ROOT_PASSWORD: SET_CREDENTIALS_HERE
-        TZ: Europe/Berlin
-    networks:
-        - fhem-network
-    expose:
-        - "3306"
-        - "33060"
-    ports:
-        - "3306:3306"
-        - "33060:33060"
-          
+    mariadb:
+        container_name: mariadb
+        restart: always
+        image: mariadb:latest
+        volumes:
+            - ./scripts/sql/:/docker-entrypoint-initdb.d/
+            - ./mariadb/data:/var/lib/mysql
+            - ./config/sql/:/home/config
+            - ./scripts/sql/:/home/scripts
+        environment:
+            MARIADB_DATABASE: fhem
+            MARIADB_USER: fhemuser
+            MARIADB_PASSWORD: SET_CREDENTIALS_HERE
+            MARIADB_ROOT_PASSWORD: SET_CREDENTIALS_HERE
+            TZ: Europe/Berlin
+        networks:
+            - fhem-network
+        expose:
+            - "3306"
+            - "33060"
+        ports:
+            - "3306:3306"
+            - "33060:33060"
+
+    py_departure:
+        container_name: py_departure
+        build: ./python/fetch_public_transport
+        networks:
+            - fhem-network
+        restart: "no"
+        depends_on:
+            - "fhem"
+
 networks:
     fhem-network:
         driver: bridge
