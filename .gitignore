@@ -197,9 +197,9 @@ cython_debug/
 .devcontainer
 .vscode
 .env/
-fhem/core/
-grafana/
-mariadb/
+/fhem/core/
+/grafana/
+/mariadb/
 config/configDB/configDB.conf
 Trash-1000/
-python/fetch_public_transport/src/parameters.jsonc
+/python/fetch_public_transport/src/parameters.jsonc

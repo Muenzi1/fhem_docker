@@ -1,0 +1,421 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": 2,
+  "iteration": 1655340320276,
+  "links": [],
+  "liveNow": true,
+  "panels": [
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "qayZDMrnz"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Temperature , °C",
+            "axisPlacement": "auto",
+            "axisSoftMax": 40,
+            "axisSoftMin": 12,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "libraryPanel": {
+        "description": "",
+        "meta": {
+          "connectedDashboards": 1,
+          "created": "2022-06-06T10:34:22Z",
+          "createdBy": {
+            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+            "id": 1,
+            "name": "admin"
+          },
+          "folderName": "Climate_Rooms",
+          "folderUid": "tluZDEr7k",
+          "updated": "2022-06-06T14:25:31Z",
+          "updatedBy": {
+            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+            "id": 1,
+            "name": "admin"
+          }
+        },
+        "name": "Temperature",
+        "type": "timeseries",
+        "uid": "sh4Jk6r7z",
+        "version": 3
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "repeat": "Rooms",
+      "repeatDirection": "v",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "qayZDMrnz"
+          },
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "READING",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  UNIX_TIMESTAMP(TIMESTAMP) AS \"time\",\n  CONCAT_WS(\": \", DISPLAY_NAME, READING) AS metric,\n  VALUE\nFROM f_v_climate_${Rooms:raw}\nWHERE\n  $__timeFilter(TIMESTAMP)\n  AND READING IN ('T_ACT', 'T_TAR') \nORDER BY TIMESTAMP",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "VALUE"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "f_v_climate_bz",
+          "timeColumn": "TIMESTAMP",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Temperature",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "mysql",
+        "uid": "qayZDMrnz"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Relative Humidity, %rH",
+            "axisPlacement": "auto",
+            "axisSoftMax": 80,
+            "axisSoftMin": 20,
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 80,
+          "min": 20,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "min",
+                "value": 970
+              },
+              {
+                "id": "custom.axisSoftMax",
+                "value": 1050
+              },
+              {
+                "id": "max"
+              },
+              {
+                "id": "custom.axisLabel",
+                "value": "Pressure, hPa"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "libraryPanel": {
+        "description": "",
+        "meta": {
+          "connectedDashboards": 1,
+          "created": "2022-06-06T14:14:09Z",
+          "createdBy": {
+            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+            "id": 1,
+            "name": "admin"
+          },
+          "folderName": "Climate_Rooms",
+          "folderUid": "tluZDEr7k",
+          "updated": "2022-06-06T14:28:40Z",
+          "updatedBy": {
+            "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
+            "id": 1,
+            "name": "admin"
+          }
+        },
+        "name": "Pressure_Humidity",
+        "type": "timeseries",
+        "uid": "b4BW2e97z",
+        "version": 7
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "repeat": "Rooms",
+      "repeatDirection": "v",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "qayZDMrnz"
+          },
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "READING",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  UNIX_TIMESTAMP(TIMESTAMP) AS \"time\",\n  CONCAT_WS(\": \", DISPLAY_NAME, READING) AS metric,\n  VALUE\nFROM f_v_climate_${Rooms:raw}\nWHERE\n  $__timeFilter(TIMESTAMP)\n  AND READING = 'Humidity' \nORDER BY TIMESTAMP",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "VALUE"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "f_v_climate_bz",
+          "timeColumn": "TIMESTAMP",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "qayZDMrnz"
+          },
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  UNIX_TIMESTAMP(TIMESTAMP) AS \"time\",\n  CONCAT_WS(\": \", DISPLAY_NAME, READING) AS metric,\n  VALUE\nFROM f_v_climate_${Rooms:raw}\nWHERE\n  $__timeFilter(TIMESTAMP)\n  AND READING = 'Pressure' \nORDER BY TIMESTAMP",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "ID"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "f_v_climate_bz",
+          "timeColumn": "TIMESTAMP",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Pressure/Humidity",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "mysql",
+          "uid": "qayZDMrnz"
+        },
+        "definition": "SELECT RIGHT(DASHBOARD,2) FROM fhem.d_t_device_mapping",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Rooms",
+        "options": [],
+        "query": "SELECT RIGHT(DASHBOARD,2) FROM fhem.d_t_device_mapping",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Room Climate",
+  "uid": "kTwHmE97z",
+  "version": 18,
+  "weekStart": ""
+}
