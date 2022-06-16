@@ -3,8 +3,7 @@ SELECT
     last_vals.ID,
     last_vals.TIMESTAMP, 
     last_vals.VALUE, 
-    ddm.DISPLAY_NAME,
-    drm.READING
+    ddm.DEVICE
 FROM (
     -- Retrieve last values from battery table
     SELECT 
