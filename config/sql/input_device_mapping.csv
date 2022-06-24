@@ -5,7 +5,7 @@ ID,DEVICE,DISPLAY_NAME,TYPE,DASHBOARD,
 4,ESPEasy_Kinderzimmer_BMP,KZ_Raum,ESPEASY,climate_kz
 5,ESPEasy_Kueche_BMP,KU_Raum,ESPEASY,climate_wz
 6,ESPEasy_Schlafzimmer_BMP,SZ_Raum,ESPEASY,climate_sz
-7,ESPEasy_Wohnzimmer_BMP,WZ_Raum,ESPEASY,climate_wz
+7,ESPEasy_Wohnzimmer_BMP,WZ_Couch,ESPEASY,climate_wz
 8,az_heizung,AZ_Heizung,CUL_HM,climate_az
 9,bz_heizung,BZ_Heizung,CUL_HM,climate_bz
 10,kl_heizung,KL_Heizung,CUL_HM,climate_wz
