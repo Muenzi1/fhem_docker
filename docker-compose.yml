@@ -84,6 +84,8 @@ services:
         labels:
             ofelia.job-run.departure.container: "py_departure"
             ofelia.job-run.departure.schedule: "@every 120s"
+        networks:
+            - fhem-network
 
 networks:
     fhem-network:
