@@ -13,7 +13,7 @@
             "READING": "Tram"
         }
     },
-    "HOST": "fhem",
+    "HOST": "host",
     "FHEM_PORT": "8083",
     "CSRF_TOKEN": "csrf_111111111111111111"
 }
