@@ -202,4 +202,4 @@ cython_debug/
 /mariadb/
 config/configDB/configDB.conf
 Trash-1000/
-/python/fetch_public_transport/src/parameters.jsonc
+parameters.jsonc
