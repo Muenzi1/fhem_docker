@@ -75,6 +75,15 @@ services:
         depends_on:
             - "fhem"
 
+    py_fetch_gas_prices:
+        container_name: py_fetch_gas_prices
+        build: ./python/fetch_gas_prices
+        networks:
+            - fhem-network
+        restart: "no"
+        depends_on:
+            - "mariadb"
+
     ofelia:
         container_name: ofelia
         image: mcuadros/ofelia:latest
@@ -84,6 +93,8 @@ services:
         labels:
             ofelia.job-run.departure.container: "py_departure"
             ofelia.job-run.departure.schedule: "@every 120s"
+            ofelia.job-run.gas_price.container: "py_fetch_gas_prices"
+            ofelia.job-run.gas_price.schedule: "@every 1800s"
         networks:
             - fhem-network
 

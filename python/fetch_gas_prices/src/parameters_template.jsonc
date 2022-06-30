@@ -1,0 +1,21 @@
+{
+    "BASE_URL" : "https://creativecommons.tankerkoenig.de/json/list.php",
+    "API_KEY": "API_KEY",
+    "NUMBER_STATIONS": 10,
+    "STATIONS": {
+        "LOCATION1": {
+            "LONGITUDE": "10.000000", 
+            "LATITUDE": "10.000000",
+            "RADIUS": 10000
+        },
+        "LOCATION2": {
+            "LONGITUDE": "10.000000", 
+            "LATITUDE": "10.000000",
+            "RADIUS": 10000
+        }
+    },
+    "HOST": "host",
+    "MYSQL_PORT": "MYSQL_PORT",
+    "MYSQL_USER": "MYSQL_USER",
+    "MYSQL_PASSWORD": "MYSQL_PASSWORD"
+}
