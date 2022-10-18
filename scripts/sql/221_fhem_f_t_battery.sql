@@ -13,5 +13,5 @@ CREATE TABLE fhem.f_t_battery (
     INDEX Search_Idx (TIMESTAMP, FK_DEVICE_ID, FK_READING_ID, VALUE),
     INDEX Report_Idx (TIMESTAMP, FK_READING_ID),
     INDEX Date_Idx (YEAR, MONTH, DAY),
-    INDEX Week_Idx (YEAR, WEEK)
+    INDEX Id_Per_Device_Idx (FK_DEVICE_ID ASC, ID DESC)
 );
