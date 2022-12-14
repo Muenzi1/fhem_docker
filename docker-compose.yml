@@ -66,6 +66,19 @@ services:
             - "3306:3306"
             - "33060:33060"
 
+    climate_api:
+        container_name: climate_api
+        build: ./python/climate_api
+        env_file:
+            - python/climate_api/.env
+        networks:
+            - fhem-network
+        restart: "no"
+        depends_on:
+            - "mariadb"
+        ports:
+            - "8050:8000"
+
     py_departure:
         container_name: py_departure
         build: ./python/fetch_public_transport
