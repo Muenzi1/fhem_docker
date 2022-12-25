@@ -66,6 +66,23 @@ services:
             - "3306:3306"
             - "33060:33060"
 
+    mqtt:
+        container_name: mqtt
+        restart: always
+        image: eclipse-mosquitto:latest
+        volumes:
+            - ./mqtt/config/:/mosquitto/config/
+            - ./mqtt/log/:/mosquitto/log/
+            - ./mqtt/data/:/mosquitto/data/
+        networks:
+            - fhem-network
+        expose:
+            - "1883"
+            - "9001"
+        ports:
+            - "1883:1883"
+            - "9001:9001"
+
     py_departure:
         container_name: py_departure
         build: ./python/fetch_public_transport
