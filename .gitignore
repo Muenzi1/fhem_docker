@@ -206,3 +206,8 @@ config/configDB/configDB.conf
 Trash-1000/
 parameters.jsonc
 mosquitto.db
+
+# Blob data - Pure parquet files or Delta Tables
+*.parquet
+*.parquet.crc
+_delta_log/
