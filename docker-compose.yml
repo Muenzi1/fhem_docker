@@ -1,120 +1,129 @@
 version: "3"
 
 services:
-    fhem:
-        container_name: fhem
-        image: ghcr.io/fhem/fhem/fhem-docker:bullseye
-        restart: always
-        volumes:
-            - ./fhem/core/:/opt/fhem/
-            - ./fhem/config/:/opt/fhem/conf
-            - ./config/init/fhem/fhem-post-init.sh:/post-init.sh
-        devices:
-            - "/dev/ttyAMA0:/dev/ttyAMA0"
-        environment:
-            FHEM_UID: 1000
-            FHEM_GID: 1000
-            TIMEOUT: 10
-            RESTART: 1
-            TELNETPORT: 7072
-            TZ: Europe/Berlin
-            CONFIGTYPE: configDB
-        networks:
-            - fhem-network
-        ports:
-            - "8083:8083"
-            - "8383:8383"
-            - "7072:7072"
-        depends_on:
-            - "mariadb"
-            - "grafana"
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
-    grafana:
-        container_name: grafana
-        image: grafana/grafana-oss:latest
-        user: "0"
-        volumes:
-            - "./grafana/:/var/lib/grafana"
-        networks:
-            - fhem-network
-        ports:
-            - 3000:3000
-        depends_on:
-            - "mariadb"
+  fhem:
+    container_name: fhem
+    image: ghcr.io/fhem/fhem/fhem-docker:bullseye
+    restart: always
+    volumes:
+      - ./fhem/core/:/opt/fhem/
+      - ./fhem/config/:/opt/fhem/conf
+      - ./config/init/fhem/fhem-post-init.sh:/post-init.sh
+    devices:
+      - "/dev/ttyAMA0:/dev/ttyAMA0"
+    environment:
+      FHEM_UID: 1000
+      FHEM_GID: 1000
+      TIMEOUT: 10
+      RESTART: 1
+      TELNETPORT: 7072
+      TZ: Europe/Berlin
+      CONFIGTYPE: configDB
+      VIRTUAL_HOST: fhem.localhost
 
-    mariadb:
-        container_name: mariadb
-        restart: always
-        image: mariadb:latest
-        volumes:
-            - ./scripts/sql/:/docker-entrypoint-initdb.d/
-            - ./mariadb/data:/var/lib/mysql
-            - ./config/sql/:/home/config
-            - ./scripts/sql/:/home/scripts
-        environment:
-            MARIADB_DATABASE: fhem
-            MARIADB_USER: fhemuser
-            MARIADB_PASSWORD: SET_CREDENTIALS_HERE
-            MARIADB_ROOT_PASSWORD: SET_CREDENTIALS_HERE
-            TZ: Europe/Berlin
-        networks:
-            - fhem-network
-        expose:
-            - "3306"
-            - "33060"
-        ports:
-            - "3306:3306"
-            - "33060:33060"
+    networks:
+      - fhem-network
+    ports:
+      - "8083:8083"
+      - "8383:8383"
+      - "7072:7072"
+    depends_on:
+      - "mariadb"
+      - "grafana"
 
-    mqtt:
-        container_name: mqtt
-        restart: always
-        image: eclipse-mosquitto:latest
-        volumes:
-            - ./mqtt/config/:/mosquitto/config/
-            - ./mqtt/log/:/mosquitto/log/
-            - ./mqtt/data/:/mosquitto/data/
-        networks:
-            - fhem-network
-        expose:
-            - "1883"
-            - "9001"
-        ports:
-            - "1883:1883"
-            - "9001:9001"
+  grafana:
+    container_name: grafana
+    image: grafana/grafana-oss:latest
+    user: "0"
+    volumes:
+      - "./grafana/:/var/lib/grafana"
+    networks:
+      - fhem-network
+    ports:
+      - 3000:3000
+    depends_on:
+      - "mariadb"
 
-    py_departure:
-        container_name: py_departure
-        build: ./python/fetch_public_transport
-        networks:
-            - fhem-network
-        restart: "no"
-        depends_on:
-            - "fhem"
+  mariadb:
+    container_name: mariadb
+    restart: always
+    image: mariadb:latest
+    volumes:
+      - ./scripts/sql/:/docker-entrypoint-initdb.d/
+      - ./mariadb/data:/var/lib/mysql
+      - ./config/sql/:/home/config
+      - ./scripts/sql/:/home/scripts
+    environment:
+      MARIADB_DATABASE: fhem
+      MARIADB_USER: fhemuser
+      MARIADB_PASSWORD: SET_CREDENTIALS_HERE
+      MARIADB_ROOT_PASSWORD: SET_CREDENTIALS_HERE
+      TZ: Europe/Berlin
+    networks:
+      - fhem-network
+    expose:
+      - "3306"
+      - "33060"
+    ports:
+      - "3306:3306"
+      - "33060:33060"
 
-    py_fetch_gas_prices:
-        container_name: py_fetch_gas_prices
-        build: ./python/fetch_gas_prices
-        networks:
-            - fhem-network
-        restart: "no"
-        depends_on:
-            - "mariadb"
+  mqtt:
+    container_name: mqtt
+    restart: always
+    image: eclipse-mosquitto:latest
+    volumes:
+      - ./mqtt/config/:/mosquitto/config/
+      - ./mqtt/log/:/mosquitto/log/
+      - ./mqtt/data/:/mosquitto/data/
+    networks:
+      - fhem-network
+    expose:
+      - "1883"
+      - "9001"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
 
-    ofelia:
-        container_name: ofelia
-        image: mcuadros/ofelia:latest
-        command: daemon --docker
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock:ro
-        labels:
-            ofelia.job-run.departure.container: "py_departure"
-            ofelia.job-run.departure.schedule: "@every 120s"
-            ofelia.job-run.gas_price.container: "py_fetch_gas_prices"
-            ofelia.job-run.gas_price.schedule: "@every 1800s"
-        networks:
-            - fhem-network
+  py_departure:
+    container_name: py_departure
+    build: ./python/fetch_public_transport
+    networks:
+      - fhem-network
+    restart: "no"
+    depends_on:
+      - "fhem"
+
+  py_fetch_gas_prices:
+    container_name: py_fetch_gas_prices
+    build: ./python/fetch_gas_prices
+    networks:
+      - fhem-network
+    restart: "no"
+    depends_on:
+      - "mariadb"
+
+  ofelia:
+    container_name: ofelia
+    image: mcuadros/ofelia:latest
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      ofelia.job-run.departure.container: "py_departure"
+      ofelia.job-run.departure.schedule: "@every 120s"
+      ofelia.job-run.gas_price.container: "py_fetch_gas_prices"
+      ofelia.job-run.gas_price.schedule: "@every 1800s"
+    networks:
+      - fhem-network
 
 networks:
-    fhem-network:
-        driver: bridge
+  fhem-network:
+    driver: bridge
